@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
+
+while [[ $# -gt 0 ]]; do
+	case "$1" in
+		-s)
+			shift
+			speed_argument=$1
+			speed_animate=1
+			shift
+			;;
+		-a)
+			animate=1
+			shift
+			;;
+		-b)
+			borg=1
+			shift
+			;;
+		*)
+			echo "$1 is not a recognized flag!";
+			exit
+			shift
+			;;
+	esac
+done
+
+if [[ $speed_animate -eq 1 ]];then
+	python "$SCRIPT_DIR/load_tao.py" | cowsay | lolcat -F .05 -p 1 --animate --speed "$speed_argument";
+elif [[ $animate -eq 1 ]];then
+	python "$SCRIPT_DIR/load_tao.py" | cowsay | lolcat -F .05 -p 1 --animate --speed 30;
+elif [[ $borg -eq 1 ]];then
+	python "$SCRIPT_DIR/load_tao.py" | cowsay -b | lolcat -F .05 -p 1
+else
+	python "$SCRIPT_DIR/load_tao.py" | cowsay | lolcat -F .05 -p 1
+fi
